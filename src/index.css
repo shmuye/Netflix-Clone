@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+
+
+@theme {
+  --color-dark: #141414
+}
+
+body {
+  @apply bg-dark;
+}
