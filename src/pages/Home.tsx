@@ -7,7 +7,7 @@ const Home: FC = () => {
     useEffect(() => {
         const getMovie = async () => {
             const res = await tmdbApi.fetchPopularMovies()
-            console.log(res)
+            console.log(res.data?.results[0])
         }
 
         getMovie()

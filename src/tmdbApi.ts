@@ -1,4 +1,5 @@
 import axios, { type AxiosRequestConfig } from 'axios'
+import type { Genre, Movie } from './types/types';
 
 const BASE_URL = import.meta.env.VITE_BASE_URI
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
@@ -44,14 +45,14 @@ const get = async<T>(url: string, config?: AxiosRequestConfig): Promise<ApiRespo
 }
 
 export const tmdbApi = {
-    fetchPopularMovies: (page: number = 1) => get<any>('/movie/popular', { params: { page } }),
+    fetchPopularMovies: (page: number = 1) => get<{ results: Movie[] }>('/movie/popular', { params: { page } }),
 
-    fetchTrendingMovies: (timeWindow: string = 'week') => get<any>(`/trending/movie/${timeWindow}`),
+    fetchTrendingMovies: (timeWindow: string = 'week') => get<{ results: Movie[] }>(`/trending/movie/${timeWindow}`),
 
-    fetchTopRatedMovies: (page: number = 1) => get<any>(`/movie/top_rated`, { params: { page } }),
+    fetchTopRatedMovies: (page: number = 1) => get<{ results: Movie[] }>(`/movie/top_rated`, { params: { page } }),
 
-    getGenres: () => { get<any>('/genre/movie/list') },
+    getGenres: () => { get<{ genres: Genre[] }>('/genre/movie/list') },
     getMoviesByGenre: (genreId: number, page: number = 1) => {
-        get<any>(`/discover/movie`, { params: { with_genres: genreId, page } })
+        get<{ results: Movie[] }>(`/discover/movie`, { params: { with_genres: genreId, page } })
     }
 }
