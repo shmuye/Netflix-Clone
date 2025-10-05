@@ -6,21 +6,30 @@ import MyList from "./pages/MyList"
 import Search from "./pages/Search"
 import NotFound from "./pages/NotFound"
 import NavBar from "./components/NavBar"
+import { MovieProvider } from "./context/MovieContext"
 
 const App: FC = () => {
   return (
-    <Router>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/watch" element={<Watch />} />
-        <Route path="/myList" element={<MyList />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+    <MovieProvider>
+      <Router>
+        <MainContent />
+      </Router>
+    </MovieProvider>
 
-    </Router>
   )
 }
 
 export default App
+
+const MainContent: FC = () => (
+  <>
+    <NavBar />
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/watch" element={<Watch />} />
+      <Route path="/myList" element={<MyList />} />
+      <Route path="/search" element={<Search />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </>
+)

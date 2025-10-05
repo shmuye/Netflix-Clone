@@ -1,11 +1,12 @@
 import axios, { type AxiosRequestConfig } from 'axios'
-import type { Genre, Movie } from './types/types';
+import type { Genre, Movie } from './types/types'
+
 
 const BASE_URL = import.meta.env.VITE_BASE_URI
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY
 
 
-console.log("TMDB KEY:", API_KEY);
+
 
 export interface RequestError extends Error {
     status?: number,
@@ -51,8 +52,8 @@ export const tmdbApi = {
 
     fetchTopRatedMovies: (page: number = 1) => get<{ results: Movie[] }>(`/movie/top_rated`, { params: { page } }),
 
-    getGenres: () => { get<{ genres: Genre[] }>('/genre/movie/list') },
-    getMoviesByGenre: (genreId: number, page: number = 1) => {
+    getGenres: () => get<{ genres: Genre[] }>('/genre/movie/list'),
+    getMoviesByGenre: (genreId: number, page: number = 1) =>
         get<{ results: Movie[] }>(`/discover/movie`, { params: { with_genres: genreId, page } })
-    }
+
 }
