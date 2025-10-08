@@ -1,4 +1,4 @@
-import { useRef, useState, type FC } from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { Link } from "react-router-dom";
 import logo from '../assets/Netflix-LOGO.png'
 import profilePic from '../assets/profile.jpg'
@@ -8,8 +8,18 @@ const NavBar: FC = () => {
     const [isSearchActive, setIsSearchActive] = useState<boolean>(false)
     const [open, setOpen] = useState<boolean>(false)
     const [searchQuery, setSearchQuery] = useState<string>('')
+    const [isSticky, setIsSticky] = useState<boolean>(false)
     const mainInputRef = useRef<HTMLInputElement>(null)
     const mobileInputRef = useRef<HTMLInputElement>(null)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsSticky(window.scrollY > 0)
+        }
+        window.addEventListener('scroll', handleScroll)
+
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
 
     const toggleSearch = (type: string) => {
         if (type === 'mobile') {
@@ -28,7 +38,7 @@ const NavBar: FC = () => {
     const toggleMenu = () => setOpen(prev => !prev)
     const closeMenu = () => setOpen(false)
     return (
-        <header className="fixed top-0 left-0 right-0 flex flex-col px-5 md:px-10 transition-all duration-300 ease-in-out text-white">
+        <header className={`fixed top-0 left-0 right-0 flex flex-col px-5 md:px-10 transition-all duration-300 ease-in-out text-white z-10 ${isSticky ? "bg-black shadow-lg" : "bg-gradient-to-b from-[rgba(0,0,0,0.7)] to-transparent"}`}>
             <div className="flex items-center py-4 justify-between">
                 <div className="flex gap-x-6 md:gap-x-8 items-center">
                     <Link to="/">
