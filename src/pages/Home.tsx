@@ -75,7 +75,7 @@ const Home: FC = () => {
         <div>
             <Hero />
             <div
-                className="absolute w-full top-[31vh] md:top-[65vh] lg:top-[85vh] pl-10 flex-col space-y-4"
+                className="absolute i-pad:top-[37.5vh] i-pad-mini:top-[42vh] w-full top-[31vh] md:top-[65vh] lg:top-[85vh] pl-10 flex-col space-y-4"
             >
                 {popularMovies && <Carousal title="Popular Movies" items={popularMovies} />}
                 {trendingMovies && <Carousal title="Trending Movies" items={trendingMovies} />}

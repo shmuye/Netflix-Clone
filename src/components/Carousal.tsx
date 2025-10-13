@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import { useRef, useState, type FC } from "react"
+import { useEffect, useRef, useState, type FC } from "react"
 import Card from "./Card"
 
 interface CarousalProps {
@@ -9,9 +9,27 @@ interface CarousalProps {
 const Carousal: FC<CarousalProps> = ({ items, title }) => {
     const carouselContainer = useRef<HTMLDivElement | null>(null)
     const [scrollPosition, setScrollPosition] = useState<number>(0)
+    const [canScrollRight, setCanScrollRight] = useState<boolean>(false)
     const scrollAmount: number = 320
 
-    console.log(items)
+    useEffect(() => {
+        const updateCanScrollRight = () => {
+            if (carouselContainer.current) {
+                const container = carouselContainer.current;
+                setCanScrollRight(container.scrollLeft + container.clientWidth < container.scrollWidth)
+            }
+        }
+        updateCanScrollRight()
+        const resizeObserver = new ResizeObserver(updateCanScrollRight)
+
+        if (carouselContainer.current) {
+            resizeObserver.observe(carouselContainer.current)
+        }
+
+        return () => {
+            resizeObserver.disconnect()
+        }
+    }, [scrollPosition])
 
 
     const handleScroll = () => {
@@ -54,7 +72,7 @@ const Carousal: FC<CarousalProps> = ({ items, title }) => {
                 >
                     <ChevronLeft />
                 </button>}
-                {carouselContainer.current && ((carouselContainer.current.clientWidth + scrollPosition) < carouselContainer.current.scrollWidth) && <button
+                    {canScrollRight && <button
                     className="
                     absolute top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-4 cursor-pointer  
                     z-10 transition-colors duration-300  ease-in-out hover:bg-opacity-80  right-0 border-none rounded-full"
