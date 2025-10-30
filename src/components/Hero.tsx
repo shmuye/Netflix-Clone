@@ -1,14 +1,37 @@
-import { type FC } from "react"
+import { useEffect, type FC } from "react"
 import { useMovieContext } from "../context/MovieContext"
 import { Info, Play, Volume } from "lucide-react"
+import { tmdbApi } from "../tmdbApi"
+import VideoPlayer from "./VideoPlayer"
 
 
 const Hero: FC = () => {
 
-    const { selectedMovie } = useMovieContext()
+    const { selectedMovie, trailerUrl, setTrailerUrl } = useMovieContext()
+
+    useEffect(() => {
+        const fetchTrailer = async () => {
+            if (selectedMovie) {
+                const trailerRes = await tmdbApi.getMovieTrailer(selectedMovie.id)
+                if (trailerRes.error) {
+                    setTrailerUrl("")
+                } else if (trailerRes.data) {
+                    setTrailerUrl(trailerRes.data.results[0].key)
+                }
+            }
+        }
+        fetchTrailer()
+    }, [selectedMovie])
     return (
         <main className="relative bg-dark overflow-hidden z-0">
             {/*   video player */}
+            {trailerUrl && <VideoPlayer videoId={trailerUrl} customHeight="0" isMuted />}
+            {selectedMovie && !trailerUrl} {
+                <img
+                    src={`https://image.tmdb.org/t/p/original/${selectedMovie?.backdrop_path}`}
+                    alt="Movie poster"
+                />
+            }
             {
                 selectedMovie &&
                 <img src={`https://image.tmdb.org/t/p/original/${selectedMovie?.backdrop_path}`} alt="movie poster" />

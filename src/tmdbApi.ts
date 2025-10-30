@@ -54,6 +54,9 @@ export const tmdbApi = {
 
     getGenres: () => get<{ genres: Genre[] }>('/genre/movie/list'),
     getMoviesByGenre: (genreId: number, page: number = 1) =>
-        get<{ results: Movie[] }>(`/discover/movie`, { params: { with_genres: genreId, page } })
+        get<{ results: Movie[] }>(`/discover/movie`, { params: { with_genres: genreId, page } }),
+
+    getMovieTrailer: (movieId: number) => get<{ results: Trailer[] }>(`/movie/${movieId}/videos`)
+
 
 }

@@ -81,8 +81,8 @@ const Home: FC = () => {
                 {trendingMovies && <Carousal title="Trending Movies" items={trendingMovies} />}
                 {topRatedMovies && <Carousal title="Top Rated Movies" items={topRatedMovies} />}
                 {
-                    GenreWithMovies && GenreWithMovies.map((movieList) => (
-                        <Carousal title={`${movieList.name} movie`} items={movieList.movies} />
+                    GenreWithMovies && GenreWithMovies.map((movieList, index) => (
+                        <Carousal key={index} title={`${movieList.name} movie`} items={movieList.movies} />
                     ))
                 }
 

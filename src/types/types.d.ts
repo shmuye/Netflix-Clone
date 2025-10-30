@@ -17,3 +17,9 @@ interface GenreWithMovies {
     name: string;
     movies: Movie[];
 }
+
+interface Trailer {
+    key: string,
+    type: string,
+    site: string,
+}
