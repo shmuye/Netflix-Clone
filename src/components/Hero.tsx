@@ -1,13 +1,13 @@
 import { useEffect, type FC } from "react"
 import { useMovieContext } from "../context/MovieContext"
-import { Info, Play, Volume } from "lucide-react"
+import { Info, Play, Volume, VolumeOff } from "lucide-react"
 import { tmdbApi } from "../tmdbApi"
 import VideoPlayer from "./VideoPlayer"
 
 
 const Hero: FC = () => {
 
-    const { selectedMovie, trailerUrl, setTrailerUrl } = useMovieContext()
+    const { selectedMovie, trailerUrl, setTrailerUrl, playerMuted, setPlayerMuted } = useMovieContext()
 
     useEffect(() => {
         const fetchTrailer = async () => {
@@ -21,17 +21,22 @@ const Hero: FC = () => {
             }
         }
         fetchTrailer()
-    }, [selectedMovie])
+    }, [selectedMovie, setTrailerUrl])
+
+    const toggleMuted = () => {
+
+        setPlayerMuted(!playerMuted)
+    }
     return (
         <main className="relative bg-dark overflow-hidden z-0">
             {/*   video player */}
-            {trailerUrl && <VideoPlayer videoId={trailerUrl} customHeight="0" isMuted />}
-            {selectedMovie && !trailerUrl} {
-                <img
-                    src={`https://image.tmdb.org/t/p/original/${selectedMovie?.backdrop_path}`}
-                    alt="Movie poster"
-                />
-            }
+            {trailerUrl && <VideoPlayer videoId={trailerUrl} customHeight="0" isMuted={playerMuted} />}
+            {selectedMovie && !trailerUrl} && (
+            <img
+                src={`https://image.tmdb.org/t/p/original/${selectedMovie?.backdrop_path}`}
+                alt="Movie poster"
+            />
+            )
             {
                 selectedMovie &&
                 <img src={`https://image.tmdb.org/t/p/original/${selectedMovie?.backdrop_path}`} alt="movie poster" />
@@ -73,8 +78,10 @@ const Hero: FC = () => {
                             </button>
                         </div>
                         <div className="absolute right-0 flex items-center gap-4">
-                            <button className="flex items-center p-2 border-2 text-white rounded-full transition-all">
-                                <Volume size={20} />
+                            <button
+                                onClick={toggleMuted}
+                                className="flex items-center p-2 border-2 text-white rounded-full transition-all">
+                                {playerMuted ? <VolumeOff size={20} /> : <Volume size={20} />}
                             </button>
 
                             <div className="bg-gray-600 text-white bg-opacity-60 border-l-2  px-3 py-2 ">

@@ -23,7 +23,7 @@ const VideoPlayer: FC<videoPlayerProps> = ({
 
     // using ReactPlayer as a type 
 
-    const playerRef = useRef<typeof ReactPlayer>(null)
+    const playerRef = useRef<ReactPlayer>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
     // states without a setter
@@ -50,7 +50,7 @@ const VideoPlayer: FC<videoPlayerProps> = ({
             <ReactPlayer
                 ref={playerRef}
                 src={`https://www.youtube.com/embed/${videoId}`}
-                controls={true}
+                controls={false}
                 playing={playing}
                 volume={volume}
                 muted={location.pathname.startsWith('/watch') ? mute : isMuted}
@@ -61,8 +61,8 @@ const VideoPlayer: FC<videoPlayerProps> = ({
                 config={{
                     youtube: {
                         playerVars: {
-                            autoPlay: 1,
-                            modestbrandig: 1,
+                            autoplay: 1,
+                            modestbranding: 1,
                             rel: 0,
                             disablekb: 1
                         }

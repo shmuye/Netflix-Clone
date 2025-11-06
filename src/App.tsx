@@ -7,13 +7,16 @@ import Search from "./pages/Search"
 import NotFound from "./pages/NotFound"
 import NavBar from "./components/NavBar"
 import { MovieProvider } from "./context/MovieContext"
+import CardProvider from "./context/CardContex"
 
 const App: FC = () => {
   return (
     <MovieProvider>
-      <Router>
-        <MainContent />
-      </Router>
+      <CardProvider>
+        <Router>
+          <MainContent />
+        </Router>
+      </CardProvider>
     </MovieProvider>
 
   )
