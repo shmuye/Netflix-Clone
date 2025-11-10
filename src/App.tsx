@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound"
 import NavBar from "./components/NavBar"
 import { MovieProvider } from "./context/MovieContext"
 import CardProvider from "./context/CardContex"
+import PopUpCard from "./components/PopUpCard"
 
 const App: FC = () => {
   return (
@@ -27,6 +28,7 @@ export default App
 const MainContent: FC = () => (
   <>
     <NavBar />
+    <PopUpCard isHovered={true} x={0} y={0} />
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/watch" element={<Watch />} />

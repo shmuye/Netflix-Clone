@@ -16,7 +16,7 @@ interface cardContextType {
 
 const CardContext = createContext<cardContextType | undefined>(undefined)
 
-export default CardProvider: FC<{ children: ReactNode }> = ({ children }) => {
+const CardProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const [cardState, setCardState] = useState<Cardstate>(
         {
@@ -34,6 +34,9 @@ export default CardProvider: FC<{ children: ReactNode }> = ({ children }) => {
         </CardContext.Provider>
     )
 }
+
+
+export default CardProvider;
 
 export const useCardContext = () => {
 
