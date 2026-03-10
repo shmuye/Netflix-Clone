@@ -36,13 +36,13 @@ const Home: FC = () => {
       
 
       if (allGenres.error) {
-        console.log(allGenres.error);
+        
         setgenresWithMovies([]);
       } else if (allGenres.data) {
         const allGenreWithMovies = await Promise.all(
           allGenres.data?.genres.map(async (genre) => {
             const movies = await tmdbApi.getMoviesByGenre(genre.id);
-            console.log(movies);
+           
 
             return {
               id: genre.id,
