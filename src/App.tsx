@@ -1,40 +1,64 @@
-import type { FC } from "react"
-import Home from "./pages/Home"
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
-import Watch from "./pages/Watch"
-import MyList from "./pages/MyList"
-import Search from "./pages/Search"
-import NotFound from "./pages/NotFound"
-import NavBar from "./components/NavBar"
-import { MovieProvider } from "./context/MovieContext"
-import CardProvider from "./context/CardContex"
-import PopUpCard from "./components/PopUpCard"
+import { type FC } from "react";
+import Home from "./pages/Home";
+import Watch from "./pages/Watch";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MyList from "./pages/MyList";
+import Search from "./pages/Search";
+import NotFound from "./pages/NotFound";
+import { MovieProvider, useMovieContext } from "./context/MovieContext";
+import PopUpCard from "./components/PopUpCard";
+import { UtilsProvider } from "./context/UtilsContext";
+import Modal from "./components/Modal";
+import { Toaster } from "react-hot-toast";
+import { CardProvider, useCardContext } from "./context/CardContex";
+import Navbar from "./components/NavBar";
 
 const App: FC = () => {
   return (
     <MovieProvider>
       <CardProvider>
-        <Router>
-          <MainContent />
-        </Router>
+        <UtilsProvider>
+          <Router>
+            <MainContent />
+          </Router>
+        </UtilsProvider>
       </CardProvider>
     </MovieProvider>
+  );
+};
 
-  )
-}
+export default App;
 
-export default App
+const MainContent: FC = () => {
+  const { cardState } = useCardContext();
 
-const MainContent: FC = () => (
-  <>
-    <NavBar />
-    <PopUpCard isHovered={true} x={0} y={0} />
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/watch" element={<Watch />} />
-      <Route path="/myList" element={<MyList />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  </>
-)
+  const { selectedMovie, isModalOpen, setModalOpen } = useMovieContext();
+
+  const closeModal = () => setModalOpen(false);
+
+  return (
+    <>
+      <Toaster position="top-right" />
+      <Navbar />
+      <PopUpCard
+        isHovered={cardState.isHovered}
+        x={cardState.postion?.x || 0}
+        y={cardState.postion?.y || 0}
+      />
+      {selectedMovie && (
+        <Modal
+          movieData={selectedMovie}
+          isOpen={isModalOpen}
+          onClose={closeModal}
+        />
+      )}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/watch/:id" element={<Watch />} />
+        <Route path="/myList" element={<MyList />} />
+        <Route path="/search/:query" element={<Search />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
+  );
+};
