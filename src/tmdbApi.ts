@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import axios, { type AxiosRequestConfig } from "axios";
 import toast from "react-hot-toast";
 
 const BASE_URL = "https://api.themoviedb.org/3";

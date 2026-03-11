@@ -15,7 +15,7 @@ export const UtilsProvider: FC<{ children: ReactNode }> = ({ children }) => {
     JSON.parse(localStorage.getItem("movieList") || "[]")
   );
 
-  const { setCardState } = useCardContext();
+  const { cardState, setCardState } = useCardContext();
 
   const addToFavoriteList = (movie: Movie) => {
     let list = localStorage.getItem("movieList");
@@ -34,12 +34,12 @@ export const UtilsProvider: FC<{ children: ReactNode }> = ({ children }) => {
           );
           setMovieList(newMovieList);
           localStorage.setItem("movieList", JSON.stringify(newMovieList));
-          setCardState((prev) => ({
-            ...prev,
-            isHovered: false,
-            item: null,
-            cardId: null,
-          }));
+          setCardState({
+  ...cardState, // get current state
+  isHovered: false,
+  item: null,
+  cardId: null,
+});
           return;
         }
       } catch (error) {

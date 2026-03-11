@@ -47,7 +47,7 @@ const Home: FC = () => {
             return {
               id: genre.id,
               name: genre.name,
-              movies: movies.data.results,
+              movies: movies.data?.results || [],
             };
           })
         );

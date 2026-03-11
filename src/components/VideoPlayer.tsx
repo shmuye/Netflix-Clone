@@ -16,7 +16,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({
   pip,
 }) => {
   const location = useLocation();
-  const playerRef = useRef<typeof ReactPlayer>(null);
+  const playerRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [mute] = useState<boolean>(false);
   const [playing] = useState<boolean>(true);
@@ -48,18 +48,17 @@ const VideoPlayer: FC<VideoPlayerProps> = ({
         width="100%"
         height="100%"
         className="absolute top-0 left-0" 
-        config={
-            {
+        config={{
                 youtube:{
                     playerVars:{
                         autoplay:1,
                         modestbranding:1,
                         rel:0,
                         disablekb:1                        
-                    },
-                    // embedOptions:{}
+                    } as const,
+                    
                 }
-            }
+              } as any
         }
       />
     </div>

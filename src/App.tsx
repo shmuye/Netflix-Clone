@@ -47,7 +47,7 @@ const MainContent: FC = () => {
       />
       {selectedMovie && (
         <Modal
-          movieData={selectedMovie}
+          movieData={selectedMovie as any}
           isOpen={isModalOpen}
           onClose={closeModal}
         />

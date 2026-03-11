@@ -60,9 +60,9 @@ const Hero: FC = () => {
       {selectedMovie && (
         <div className="absolute top-[38%] pl-12 w-full z-10">
           <h1 className="text-3xl md:text-6xl font-bold text-white mb-4">
-            {selectedMovie.title?.length > 30 && window.innerWidth < 768
-              ? selectedMovie.title?.substring(0, 30) + "..."
-              : selectedMovie.title}
+            {selectedMovie.title && selectedMovie.title.length > 30 && window.innerWidth < 768
+  ? selectedMovie.title.substring(0, 30) + "..."
+  : selectedMovie.title}
           </h1>
 
           <p className="text-sm md:text-lg text-gray-300 hidden md:block mb-6 max-w-lg">

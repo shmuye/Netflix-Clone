@@ -31,18 +31,17 @@ const PopUpCard: FC<PopUpCardProps> = ({ isHovered, x, y }) => {
   const [trailerUrl, setTrailerUrl] = useState<string>("");
   const [showTrailer, setShowTrailer] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
-  const [movieId, setMovieId] = useState<number>(0);
   const [favData, setFavData] = useState<Movie | null>(null);
   const [addedToFavorite, setAddedToFavorite] = useState<boolean>(false);
 
   const handlePopoverMouseLeave = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setCardState((prev: any) => ({
-      ...prev,
-      isHovered: false,
-      cardId: null,
-      item: null,
-    }));
+    setCardState({
+  ...cardState,
+  isHovered: false,
+  cardId: null,
+  item: null,
+});
 
     setShowTrailer(false);
   };
@@ -56,7 +55,7 @@ const PopUpCard: FC<PopUpCardProps> = ({ isHovered, x, y }) => {
         "linear-gradient(rgba(255,255,255,0.05), rgba(255,255,255,0.05))",
       borderRadius: "8px",
       transformOrigin: "center",
-      position: "fixed",
+      position: "fixed" as const,
       width: "350px",
       zIndex: "1000",
       overflow: "hidden",
@@ -77,10 +76,12 @@ const PopUpCard: FC<PopUpCardProps> = ({ isHovered, x, y }) => {
   useEffect(() => {
     const handleScroll = () => {
       if (cardState.isHovered) {
-        setCardState((prev: any) => ({
-          ...prev,
-          isHovered: false,
-        }));
+        setCardState({
+  ...cardState,
+  isHovered: false,
+  cardId: null,
+  item: null,
+});
       }
     };
 
@@ -98,7 +99,6 @@ const PopUpCard: FC<PopUpCardProps> = ({ isHovered, x, y }) => {
       );
 
       setTitle(cardState.item.title || "MOVIE");
-      setMovieId(cardState.item.id);
       setFavData(cardState.item);
 
       // check if added to list
@@ -106,10 +106,12 @@ const PopUpCard: FC<PopUpCardProps> = ({ isHovered, x, y }) => {
       let list = JSON.parse(localStorage.getItem("movieList") || "[]");
 
       setAddedToFavorite(
-        list.some((item: Movie) => item.id === cardState.item.id)
+       cardState.item && list.some((item: Movie) => item.id === cardState.item?.id)
       );
 
       const fetchTrailer = async () => {
+        if (!cardState.item) return;
+        
         const trailerRes = await tmdbApi.getMovieTrailer(cardState.item.id);
 
         if (trailerRes.error) {
@@ -195,7 +197,7 @@ const PopUpCard: FC<PopUpCardProps> = ({ isHovered, x, y }) => {
             className="rounded-full transition-colors
              duration-200 p-3 border-2 border-gray-700 hover:border-white"
             onClick={() => {
-              addToFavoriteList(favData as Movie);
+             if (favData) addToFavoriteList(favData);
               setAddedToFavorite(!addedToFavorite);
             }}
           >
@@ -219,12 +221,12 @@ const PopUpCard: FC<PopUpCardProps> = ({ isHovered, x, y }) => {
           onClick={() => {
             setModalOpen(true);
             setSelectedMovie(favData as Movie);
-            setCardState((prev: any) => ({
-              ...prev,
-              isHovered: false,
-              cardId: null,
-              item: null,
-            }));
+           setCardState({
+            ...cardState,
+            isHovered: false,
+            cardId: null,
+            item: null,
+          });
           }}
         >
           <ChevronDown size={20} className="h-6 w-6" />
