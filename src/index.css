@@ -1,9 +1,9 @@
-@import url('https://fonts.cdnfonts.com/css/sharp-sans');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap');
 @import "tailwindcss";
 
 /* Theme variables */
 @theme {
-  --font-sharp-sans: "Sharp Sans", sans-serif;
+  --font-sharp-sans: "Poppins", sans-serif;
   --color-custom-dark: #141414;
 }
 
