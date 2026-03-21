@@ -27,7 +27,7 @@ const PopUpCard: FC<PopUpCardProps> = ({ isHovered, x, y }) => {
   const { addToFavoriteList } = useUtilsContext();
 
   const [title, setTitle] = useState<string>("MOVIE");
-  const [muted, setMuted] = useState<boolean>(false);
+  const [muted, setMuted] = useState<boolean>(true);
   const [trailerUrl, setTrailerUrl] = useState<string>("");
   const [showTrailer, setShowTrailer] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string>("");
