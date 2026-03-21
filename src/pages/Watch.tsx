@@ -12,7 +12,7 @@ const Watch: FC = () => {
 
   return (
     <div className="relative overflow-hidden">
-      {id != "404-not-found" && <VideoPlayer videoId={id} isMuted={true} />}
+      {id != "404-not-found" && <VideoPlayer videoId={id} isMuted={false} />}
       {id === "404-not-found" && <NotFound/>}
     </div>
   );
